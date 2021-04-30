@@ -35,7 +35,7 @@ async function handleEvent(event) {
     // When the bot is in multiple ppl chat
     if (event.source.type !== "user") {
       var activateStr = targetText.trim().substring(0, 2).toLowerCase();
-      if (activateStr !== "g " || activateStr !== "G ") {
+      if (activateStr !== "g " && activateStr !== "G ") {
         isReturn = false;
       } else {
         targetText = targetText.substring(2, targetText.length);
