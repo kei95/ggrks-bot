@@ -2,12 +2,8 @@
 
 const express = require("express");
 const line = require("@line/bot-sdk");
+const config = require("../config/config");
 const PORT = process.env.PORT || 3000;
-
-const config = {
-  channelSecret: process.env.CHANNELSECRET,
-  channelAccessToken: process.env.CHANNELACCESSTOKEN,
-};
 
 const app = express();
 
@@ -38,7 +34,7 @@ async function handleEvent(event) {
       if (activateStr !== "g " && activateStr !== "G ") {
         isReturn = false;
       } else {
-        targetText = targetText.substring(2, targetText.length);
+        targetText = targetText.trim().substring(2, targetText.length).trim();
       }
     }
 
