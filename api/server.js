@@ -3,6 +3,7 @@
 const express = require("express");
 const line = require("@line/bot-sdk");
 const config = require("../config/config");
+const textHandler = require("./util/textHandler");
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -23,27 +24,10 @@ async function handleEvent(event) {
       return Promise.resolve(null);
     }
 
-    // If it doesn't have proper prefix, it'd just ignore
-    let isReturn = true;
     // Text will be changed if it's room
-    let targetText = event.message.text;
+    let targetText = textHandler(event.message?.text);
 
-    // When the bot is in multiple ppl chat
-    if (event.source.type !== "user") {
-      var activateStr = targetText.trim().substring(0, 2).toLowerCase();
-      if (
-        activateStr !== "g " &&
-        activateStr !== "G " &&
-        activateStr !== "g　" &&
-        activateStr !== "G　"
-      ) {
-        isReturn = false;
-      } else {
-        targetText = targetText.trim().substring(2, targetText.length).trim();
-      }
-    }
-
-    if (!isReturn) return Promise.resolve(null);
+    if (!targetText) return Promise.resolve(null);
 
     var encodedString = encodeURIComponent(targetText);
 
